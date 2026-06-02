@@ -1,0 +1,5 @@
+Element,Font Family,Font Weight,Desktop Size / Line-Height,Mobile Size / Line-Height,Role & Styling Note
+H1: Display Title,Cormorant Garamond,300 (Light),72px / 1.15,44px / 1.2,Fine-line elegance. Set italic or regular with zero bolding.
+H2: Section Header,Cormorant Garamond,400 (Regular),36px / 1.2,28px / 1.2,Delicate subheadings. Often centered or given extreme margins.
+Body Text,Helvetica Neue Light,300 (Light),16px / 1.7,15px / 1.65,"Airy, fine-art catalog structure. Columnized layouts work best."
+Captions / Meta,Helvetica Neue,500 (Medium),12px / 1.4,11px / 1.4,"Tiny, low-contrast utility text for image annotations."

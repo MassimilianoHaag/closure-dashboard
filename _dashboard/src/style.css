@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Active state for filter buttons — one class to toggle in JS */
+.btn-active {
+  background-color: #161b22;
+  border-color: #7d8590;
+  color: #e6edf3;
+}

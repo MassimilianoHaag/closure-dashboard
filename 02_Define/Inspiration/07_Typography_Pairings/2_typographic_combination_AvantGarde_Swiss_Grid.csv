@@ -1,0 +1,5 @@
+Element,Font Family,Font Weight,Desktop Size / Line-Height,Mobile Size / Line-Height,Role & Styling Note
+H1: Display Title,Founders Grotesk,800 (Black),96px / 0.95,48px / 1.0,Aggressive scale. Set letter-spacing: -0.03em.
+H2: Section Header,Founders Grotesk,700 (Bold),40px / 1.1,28px / 1.1,Title-cased or all-caps. Used for high-impact breaks.
+Body Text,Founders Grotesk,400 (Regular),20px / 1.4,16px / 1.4,"Crisp, tight blocks. Keep paragraph widths narrow."
+Captions / Meta,GT America Mono,400 (Regular),11px / 1.5,11px / 1.5,Data-label look. Force uppercase (text-transform: uppercase).

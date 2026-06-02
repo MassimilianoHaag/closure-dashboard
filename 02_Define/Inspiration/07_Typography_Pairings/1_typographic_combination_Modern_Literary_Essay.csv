@@ -1,0 +1,5 @@
+Element,Font Family,Font Weight,Desktop Size / Line-Height,Mobile Size / Line-Height,Role & Styling Note
+H1: Display Title,Piazzolla (or Ogg),700 (Bold),64px / 1.1,40px / 1.15,Main article headers. Use generous vertical margins.
+H2: Section Header,Piazzolla (or Ogg),600 (Semi-Bold),32px / 1.2,26px / 1.25,Mid-page structural breaks. Keep close to trailing text.
+Body Text,Pangea (or Inter),400 (Regular),18px / 1.65,16px / 1.6,High readability. Generous line-height prevents fatigue.
+Captions / Meta,Pangea (or Inter),500 (Medium),13px / 1.4,12px / 1.4,Muted tracking (letter-spacing: 0.02em) for dates/tags.
