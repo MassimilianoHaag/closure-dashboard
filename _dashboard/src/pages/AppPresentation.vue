@@ -109,8 +109,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
             <!-- quote1: Slide 1 — the reframe, as a visual pivot -->
             <div v-if="SLIDES[current].rightTemplate === 'quote1'" class="tmpl-quote1">
               <div class="q1-curl">&#8220;</div>
-              <p class="q1-not text-[#f0ead6]">not a problem of <span class="q1-strike">time</span></p>
-              <p class="q1-but text-[#f0ead6]">but a problem of <em :style="`color: ${ACCENT}`">feeling</em></p>
+              <p class="q1-not text-[#f0ead6]">not a problem of&nbsp;<span class="q1-strike">time</span></p>
+              <p class="q1-but text-[#f0ead6]">but a problem of&nbsp;<em :style="`color: ${ACCENT}`">feeling</em></p>
               <div class="q1-attr">
                 <p>Timothy A. Pychyl</p>
                 <p style="opacity: 0.55;">Solving the Procrastination Puzzle</p>
@@ -296,9 +296,9 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 
 .q1-strike {
   text-decoration: line-through;
-  text-decoration-color: rgba(240, 234, 214, 0.4);
-  text-decoration-thickness: 1.5px;
-  opacity: 0.6;
+  text-decoration-color: rgba(240, 234, 214, 0.75);
+  text-decoration-thickness: 2px;
+  opacity: 0.85;
 }
 
 .q1-attr {
@@ -333,10 +333,10 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   font-family: 'Inter', sans-serif;
   font-size: 17px;
   font-weight: 400;
-  color: rgba(240, 234, 214, 0.48);
+  color: rgba(240, 234, 214, 0.6);
   text-decoration: line-through;
-  text-decoration-color: rgba(240, 234, 214, 0.35);
-  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(240, 234, 214, 0.65);
+  text-decoration-thickness: 1.5px;
 }
 
 .pl-winner {
@@ -387,10 +387,10 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   font-family: 'Inter', sans-serif;
   font-size: 11px;
   font-weight: 400;
-  color: rgba(240, 234, 214, 0.45);
+  color: rgba(240, 234, 214, 0.65);
   text-decoration: line-through;
-  text-decoration-color: rgba(240, 234, 214, 0.35);
-  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(240, 234, 214, 0.65);
+  text-decoration-thickness: 1.5px;
 }
 
 .ia-winner {
