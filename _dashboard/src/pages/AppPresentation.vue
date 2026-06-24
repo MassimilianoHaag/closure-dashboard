@@ -1,142 +1,35 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const ACCENT = '#bc8cff'
-
-// ── Slide images ─────────────────────────────────────────────────────────────
-const rawImages = import.meta.glob(
-  '../../../Presentation/Slide_Drafts/images/*.png',
-  { eager: true }
-)
-
-// Build a filename → resolved URL map (e.g. 'slide1-quote.png' → '/assets/...')
-const slideImages = Object.fromEntries(
-  Object.entries(rawImages).map(([path, mod]) => {
-    const filename = path.split('/').at(-1)
-    return [filename, mod.default]
-  })
-)
+const ACCENT = '#C9A0FF'
 
 const SLIDES = [
   {
-    num: 1,
-    title: 'Problem',
-    image: 'slide1-quote.png',
-    claim: 'Documentation is deferred to "later" — a later that never arrives.',
-    blocks: [
-      {
-        label: 'The Pattern',
-        body: 'Designers want to document. The moment passes. They close the laptop and promise themselves "this weekend."',
-      },
-      {
-        label: 'The Decay',
-        body: 'When they sit down to write, the memory is gone. The work feels like archaeology.',
-      },
-      {
-        label: 'The Trap',
-        body: 'They wait for a future moment with more time and clarity. That moment never arrives.',
-      },
-    ],
+    kicker: 'SLIDE 1 · INTENT → ACTION · A UX PROBLEM',
+    hero: 'Procrastination is not a time-management problem. It is a problem of regulating negative emotions.',
+    attribution: 'Timothy Pychyl · Carleton University',
+    rightTemplate: 'quote1',
   },
   {
-    num: 2,
-    title: 'UX Hypothesis',
-    image: 'slide2-stay-60-seconds.png',
-    claim: 'The window of intent closes faster than the window for action.',
-    blocks: [
-      {
-        label: 'The Window',
-        body: 'Just-shipped, still-emotional, fully-remembered work is the moment of highest signal. It passes in minutes.',
-      },
-      {
-        label: 'The Gap',
-        body: 'Every tool asks the user to come back later. The moment is gone by then.',
-      },
-      {
-        label: 'The Move',
-        body: 'Closure catches the work as it closes. Short voice captures, in the moment, that build into a case study over time.',
-      },
-    ],
+    kicker: 'SLIDE 2 · A SPECIFIC INSTANCE',
+    hero: 'Designers procrastinate on portfolio work. We chose the moment the window closes.',
+    rightTemplate: 'phraseList',
   },
   {
-    num: 3,
-    title: 'How We Got Here',
-    image: 'slide3-arc-diagram.png',
-    claim: 'We tested the idea in conversation. Three concepts were discarded. Closure is what held up.',
-    blocks: [
-      {
-        label: 'The Starting Point',
-        body: 'A talk on creative procrastination surfaced a pattern: the window of intent closes before action.',
-      },
-      {
-        label: 'The Method',
-        body: 'We worked through hypotheses with AI. Three concepts were discarded along the way — a portfolio template generator, a daily journal app, an AI portfolio writer.',
-      },
-      {
-        label: 'The Resolution',
-        body: 'What survived was sharper: catch the moment before it closes. Closure narrows to a single emotional beat — the closing ritual.',
-      },
-    ],
+    kicker: 'SLIDE 3 · METHOD',
+    hero: 'We tested the idea in conversation. Three concepts didn\'t survive.',
+    rightTemplate: 'ideationArc',
   },
   {
-    num: 4,
-    title: 'User Flow',
-    image: 'slide4-flow-diagram.png',
-    claim: 'One project, many closings. The product matures with the work.',
-    blocks: [
-      {
-        label: 'The Capture',
-        body: 'Mara records 60 seconds when a project closes. The AI mirrors what she said and asks one follow-up.',
-      },
-      {
-        label: 'The Accumulation',
-        body: 'Each capture becomes an entry in a project log. Audio, reflection, and visuals — preserved together.',
-      },
-      {
-        label: 'The Maturity',
-        body: 'Projects move through seed → in-progress → ready. When ready, they publish as case studies.',
-      },
-    ],
+    kicker: 'SLIDE 4 · WHAT WE BUILT',
+    hero: 'Closure — a closing ritual for finished work.',
+    subtitle: 'Short voice captures in the moment, building into a case study over time.',
+    rightTemplate: 'productAnatomy',
   },
   {
-    num: 5,
-    title: 'Prototype & Tech',
-    image: 'slide5-gallery.png',
-    claim: 'The product runs live. Built with Claude Code as a thinking partner.',
-    blocks: [
-      {
-        label: 'The Prototype',
-        body: 'Designers see their projects at a glance. Tap the mic, speak for 60 seconds — the AI mirrors what was said and asks one follow-up. Parchment, charcoal, Piazzolla. It reads as a publication.',
-      },
-      {
-        label: 'The Stack',
-        body: 'React, MUI, Vercel for the prototype. Vite, Tailwind, Vue for the dashboard. Piazzolla and Inter from Google Fonts. Every decision logged with reasoning — the dashboard reads the log live.',
-      },
-      {
-        label: 'The Method',
-        body: 'Every prompt referenced a constraints file. Claude Code surfaced tradeoffs we missed, pushed back when prompts were imprecise, and talked through every meaningful decision.',
-      },
-    ],
-  },
-  {
-    num: 6,
-    title: 'Iteration Journey',
-    image: 'slide7-before-after.png',
-    claim: 'Pass 2 surfaced a missing concept. We rebuilt to embrace it.',
-    blocks: [
-      {
-        label: 'The Hypothesis',
-        body: 'Pass 1 locked a single-capture model: voice in, case study out. Six wireframes. 19 design constraints.',
-      },
-      {
-        label: 'The Surprise',
-        body: "Designers don't ship just one capture. They return. They add. They revise. The product needed to model projects, not captures.",
-      },
-      {
-        label: 'The Resolution',
-        body: 'We rebuilt around projects with captures inside them. The single-capture ritual stayed — embedded in a longer practice.',
-      },
-    ],
+    kicker: 'SLIDE 5 · ITERATION',
+    hero: 'Pass 1 was a single capture. Pass 2 became a logbook.',
+    rightTemplate: 'passComparison',
   },
 ]
 
@@ -183,80 +76,106 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 
         <!-- Slide card -->
         <div
-          class="w-full aspect-video bg-[#0d1117] border border-[#21262d] rounded-lg overflow-hidden flex flex-col"
+          class="w-full aspect-video bg-[#0d1117] border border-[#21262d] rounded-lg overflow-hidden flex"
           style="box-shadow: 0 0 0 1px #21262d, 0 8px 32px rgba(0,0,0,0.4)"
         >
-          <!-- Kicker -->
-          <div class="px-10 pt-8 pb-0 shrink-0">
-            <p class="font-mono text-[10px] uppercase tracking-[0.5px]" :style="`color:${ACCENT}`">
-              Slide {{ SLIDES[current].num }} &nbsp;·&nbsp; Closure Presentation &nbsp;·&nbsp; {{ SLIDES[current].title }}
+
+          <!-- Left column: kicker + hero + optional attribution/subtitle -->
+          <div class="w-1/2 flex flex-col px-12 py-10 border-r border-[#21262d]">
+
+            <!-- Kicker -->
+            <p class="slide-kicker shrink-0" :style="`color: ${ACCENT}`">
+              {{ SLIDES[current].kicker }}
             </p>
-          </div>
 
-          <!-- Content: left claim+blocks / right image -->
-          <div class="flex-1 flex gap-0 px-10 py-6 min-h-0">
-
-            <!-- Left column: claim + blocks -->
-            <div class="w-1/2 pr-10 flex flex-col justify-between">
-
-              <!-- Claim -->
-              <p
-                class="text-[clamp(18px,2.2vw,28px)] font-semibold leading-snug text-[#e6edf3] mb-6"
-                style="font-family: Georgia, 'Times New Roman', serif"
-              >
-                {{ SLIDES[current].claim }}
+            <!-- Hero + optional attribution/subtitle, vertically centered -->
+            <div class="flex-1 flex flex-col justify-center">
+              <p class="slide-hero text-[#f0ead6]">
+                {{ SLIDES[current].hero }}
               </p>
-
-              <!-- Three blocks -->
-              <div class="flex flex-col gap-4 flex-1 justify-end">
-                <div
-                  v-for="block in SLIDES[current].blocks"
-                  :key="block.label"
-                  class="flex gap-3"
-                >
-                  <div
-                    class="shrink-0 w-1.5 rounded-full mt-1 self-stretch"
-                    :style="`background:${ACCENT}22`"
-                  />
-                  <div>
-                    <p
-                      class="font-mono text-[9px] uppercase tracking-[0.5px] mb-1"
-                      :style="`color:${ACCENT}`"
-                    >{{ block.label }}</p>
-                    <p class="text-[clamp(11px,1.1vw,14px)] text-[#c9d1d9] leading-relaxed">{{ block.body }}</p>
-                  </div>
-                </div>
-              </div>
-
+              <p v-if="SLIDES[current].attribution" class="slide-attribution mt-5">
+                {{ SLIDES[current].attribution }}
+              </p>
+              <p v-if="SLIDES[current].subtitle" class="slide-subtitle mt-4 text-[#c9d1d9]">
+                {{ SLIDES[current].subtitle }}
+              </p>
             </div>
 
-            <!-- Right column: image or placeholder -->
-            <div class="w-1/2 flex">
-              <!-- Loaded image -->
-              <img
-                v-if="slideImages[SLIDES[current].image]"
-                :src="slideImages[SLIDES[current].image]"
-                :alt="SLIDES[current].title"
-                class="w-full h-full object-contain rounded-md"
-              />
-              <!-- Placeholder fallback -->
-              <div
-                v-else
-                class="w-full h-full rounded-md flex flex-col items-center justify-center"
-                style="background:#111518; border:1px dashed #2d3139"
-              >
-                <div
-                  class="w-10 h-10 rounded-md mb-3 flex items-center justify-center"
-                  :style="`background:${ACCENT}12; border:1px solid ${ACCENT}22`"
-                >
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <rect x="1" y="1" width="16" height="16" rx="2" stroke="#484f58" stroke-width="1.2"/>
-                    <circle cx="6" cy="6.5" r="1.5" stroke="#484f58" stroke-width="1.2"/>
-                    <path d="M1 12.5l4-3 3 2.5 3-4 6 5" stroke="#484f58" stroke-width="1.2" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <p class="font-mono text-[10px] text-[#484f58]">Image asset</p>
-                <p class="font-mono text-[10px] text-[#30363d] mt-0.5">Slide {{ SLIDES[current].num }} · TBD</p>
+          </div>
+
+          <!-- Right column: custom HTML/CSS template -->
+          <div class="w-1/2 flex items-center justify-center overflow-hidden">
+
+            <!-- quote1: Slide 1 — the reframe, as a visual pivot -->
+            <div v-if="SLIDES[current].rightTemplate === 'quote1'" class="tmpl-quote1">
+              <div class="q1-curl">&#8220;</div>
+              <p class="q1-not text-[#f0ead6]">not a problem of <span class="q1-strike">time</span></p>
+              <p class="q1-but text-[#f0ead6]">but a problem of <em :style="`color: ${ACCENT}`">feeling</em></p>
+              <div class="q1-attr">
+                <p>Timothy A. Pychyl</p>
+                <p style="opacity: 0.55;">Solving the Procrastination Puzzle</p>
+              </div>
+            </div>
+
+            <!-- phraseList: Slide 2 — struck-through list → highlighted winner -->
+            <div v-else-if="SLIDES[current].rightTemplate === 'phraseList'" class="tmpl-phraseList">
+              <div class="pl-stack">
+                <p class="pl-struck">when it's finished</p>
+                <p class="pl-struck">the wrap-up</p>
+                <p class="pl-struck">post-project debrief</p>
+                <p class="pl-struck">"I'll write it up later"</p>
+                <p class="pl-struck">the moment it ships</p>
+              </div>
+              <p class="pl-winner" :style="`color: ${ACCENT}`">
+                the window of intent
+              </p>
+            </div>
+
+            <!-- ideationArc: Slide 3 — method flow with discarded items -->
+            <div v-else-if="SLIDES[current].rightTemplate === 'ideationArc'" class="tmpl-ideationArc">
+              <p class="ia-step">PROCRASTINATION TALK</p>
+              <p class="ia-arrow">↓</p>
+              <p class="ia-step">SECONDARY RESEARCH</p>
+              <p class="ia-arrow">↓</p>
+              <p class="ia-step">CONVERSATIONS WITH AI</p>
+              <p class="ia-arrow">↓</p>
+              <div class="ia-discarded">
+                <p class="ia-struck">portfolio template generator</p>
+                <p class="ia-struck">daily journal app</p>
+                <p class="ia-struck">AI portfolio writer</p>
+              </div>
+              <p class="ia-arrow">↓</p>
+              <p class="ia-winner" :style="`color: ${ACCENT}`">Closure</p>
+            </div>
+
+            <!-- productAnatomy: Slide 4 — three labeled definition sections -->
+            <div v-else-if="SLIDES[current].rightTemplate === 'productAnatomy'" class="tmpl-productAnatomy">
+              <div class="pa-section">
+                <p class="pa-label" :style="`color: ${ACCENT}`">THE SURFACE</p>
+                <p class="pa-body text-[#f0ead6]">A project logbook. Maturity dot. Timeline. Attachments.</p>
+              </div>
+              <div class="pa-section">
+                <p class="pa-label" :style="`color: ${ACCENT}`">THE RITUAL</p>
+                <p class="pa-body text-[#f0ead6]">Tap mic. Speak 60 seconds. AI mirrors. One follow-up.</p>
+              </div>
+              <div class="pa-section">
+                <p class="pa-label" :style="`color: ${ACCENT}`">THE REGISTER</p>
+                <p class="pa-body text-[#f0ead6]">Parchment. Charcoal. Piazzolla. Reads as a publication, not a tool.</p>
+              </div>
+            </div>
+
+            <!-- passComparison: Slide 5 — two passes separated by divider -->
+            <div v-else-if="SLIDES[current].rightTemplate === 'passComparison'" class="tmpl-passComparison">
+              <div class="pc-section">
+                <p class="pc-label" style="color: rgba(240,234,214,0.65)">PASS 1</p>
+                <p class="pc-title text-[#f0ead6]">Single capture model</p>
+                <p class="pc-sub" style="color: rgba(240,234,214,0.65)">60 seconds → one case study</p>
+              </div>
+              <div class="pc-divider"></div>
+              <div class="pc-section">
+                <p class="pc-label" :style="`color: ${ACCENT}`">PASS 2</p>
+                <p class="pc-title" :style="`color: ${ACCENT}`">Project logbook</p>
+                <p class="pc-sub text-[#f0ead6]">Many captures → maturity → portfolio</p>
               </div>
             </div>
 
@@ -274,7 +193,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
               : 'border-[#30363d] text-[#7d8590] hover:border-[#7d8590] hover:text-[#e6edf3]'"
           >← Prev</button>
 
-          <!-- Dot indicator -->
+          <!-- Dot indicators -->
           <div class="flex items-center gap-2">
             <button
               v-for="(_, i) in SLIDES"
@@ -287,7 +206,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
             />
           </div>
 
-          <!-- Counter -->
+          <!-- Counter: X / 5 -->
           <span class="font-mono text-[11px] text-[#7d8590] w-10 text-center">
             {{ current + 1 }} / {{ SLIDES.length }}
           </span>
@@ -307,3 +226,262 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 
   </div>
 </template>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Piazzolla:ital,opsz,wght@1,8..30,300;1,8..30,400;1,8..30,500&family=Inter:wght@300;400;500&display=swap');
+
+/* ── Left column typography ──────────────────────────────── */
+
+.slide-kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.slide-hero {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(18px, 2.5vw, 34px);
+  line-height: 1.28;
+  font-weight: 400;
+}
+
+.slide-attribution {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(201, 209, 217, 0.65);
+  letter-spacing: 0.01em;
+}
+
+.slide-subtitle {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(13px, 1.35vw, 17px);
+  line-height: 1.45;
+  font-weight: 300;
+}
+
+/* ── Template: quote1 ────────────────────────────────────── */
+
+.tmpl-quote1 {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 44px 48px 44px 44px;
+}
+
+.q1-curl {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: 160px;
+  line-height: 0.75;
+  color: rgba(201, 160, 255, 0.22);
+  user-select: none;
+  margin-bottom: -16px;
+}
+
+.q1-not, .q1-but {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.4vw, 32px);
+  line-height: 1.3;
+  font-weight: 400;
+}
+
+.q1-but { margin-top: 4px; }
+
+.q1-strike {
+  text-decoration: line-through;
+  text-decoration-color: rgba(240, 234, 214, 0.4);
+  text-decoration-thickness: 1.5px;
+  opacity: 0.6;
+}
+
+.q1-attr {
+  margin-top: 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(240, 234, 214, 0.75);
+  line-height: 1.65;
+}
+
+/* ── Template: phraseList ────────────────────────────────── */
+
+.tmpl-phraseList {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px;
+}
+
+.pl-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.pl-struck {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: rgba(240, 234, 214, 0.48);
+  text-decoration: line-through;
+  text-decoration-color: rgba(240, 234, 214, 0.35);
+  text-decoration-thickness: 1px;
+}
+
+.pl-winner {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(22px, 2.7vw, 34px);
+  font-weight: 400;
+  text-align: center;
+}
+
+/* ── Template: ideationArc ───────────────────────────────── */
+
+.tmpl-ideationArc {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 40px;
+  gap: 5px;
+}
+
+.ia-step {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240, 234, 214, 0.82);
+}
+
+.ia-arrow {
+  font-size: 13px;
+  color: rgba(240, 234, 214, 0.28);
+  line-height: 1;
+  font-family: 'Inter', sans-serif;
+}
+
+.ia-discarded {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 0;
+}
+
+.ia-struck {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(240, 234, 214, 0.45);
+  text-decoration: line-through;
+  text-decoration-color: rgba(240, 234, 214, 0.35);
+  text-decoration-thickness: 1px;
+}
+
+.ia-winner {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.3vw, 30px);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* ── Template: productAnatomy ────────────────────────────── */
+
+.tmpl-productAnatomy {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 44px 40px;
+  gap: 36px;
+}
+
+.pa-section {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.pa-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pa-body {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(14px, 1.55vw, 20px);
+  line-height: 1.38;
+  font-weight: 400;
+}
+
+/* ── Template: passComparison ────────────────────────────── */
+
+.tmpl-passComparison {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 52px;
+}
+
+.pc-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 9px;
+}
+
+.pc-divider {
+  width: 80%;
+  height: 1px;
+  background: rgba(240, 234, 214, 0.28);
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.pc-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pc-title {
+  font-family: 'Piazzolla', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.3vw, 30px);
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.pc-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+}
+</style>
