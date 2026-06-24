@@ -109,26 +109,22 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
           </div>
 
           <!-- Right column: custom HTML/CSS template -->
-          <div class="w-1/2 flex items-center justify-center overflow-hidden">
+          <div class="w-1/2 flex flex-col overflow-hidden">
 
-            <!-- quote1: Slide 1 — three insight units, distributed vertically -->
+            <!-- quote1: Slide 1 — compact cluster, top-anchored to hero baseline -->
             <div v-if="SLIDES[current].rightTemplate === 'quote1'" class="tmpl-quote1">
-              <div style="flex: 1.5 1.5 0%"></div>
               <div class="q1-unit">
                 <p class="q1-label">WRITING, NOT ASSEMBLY</p>
                 <p class="q1-body text-[#f0ead6]">The words are the bottleneck, not the files.</p>
               </div>
-              <div style="flex: 1 1 0%"></div>
               <div class="q1-unit">
                 <p class="q1-label">THE WINDOW DECAYS</p>
                 <p class="q1-body text-[#f0ead6]">Highest memory, lowest motivation.</p>
               </div>
-              <div style="flex: 1 1 0%"></div>
               <div class="q1-unit">
                 <p class="q1-label">AVOIDANCE, NOT LAZINESS</p>
                 <p class="q1-body" :style="`color: ${ACCENT}`">Emotion regulation, not time management.</p>
               </div>
-              <div style="flex: 0.5 0.5 0%"></div>
             </div>
 
             <!-- phraseList: Slide 2 — struck-through list → highlighted winner -->
@@ -281,12 +277,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 /* ── Template: quote1 ────────────────────────────────────── */
 
 .tmpl-quote1 {
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 40px 48px 40px 44px;
-  box-sizing: border-box;
+  gap: 28px;
+  padding-top: 28%;
+  padding-left: 44px;
+  padding-right: 48px;
 }
 
 .q1-unit {
