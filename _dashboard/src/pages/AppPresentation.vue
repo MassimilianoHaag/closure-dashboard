@@ -5,7 +5,7 @@ const ACCENT = '#C9A0FF'
 
 const SLIDES = [
   {
-    kicker: 'SLIDE 1 · INTENT → ACTION · A UX PROBLEM',
+    kicker: 'INTENT → ACTION · A UX PROBLEM',
     hero: 'Procrastination is not a time-management problem. It is a problem of regulating negative emotions.',
     attribution: 'Timothy Pychyl · Carleton University',
     rightTemplate: 'quote1',
@@ -88,14 +88,19 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
               {{ SLIDES[current].kicker }}
             </p>
 
-            <!-- Hero + optional attribution/subtitle, vertically centered -->
-            <div class="flex-1 flex flex-col justify-center">
-              <p class="slide-hero text-[#f0ead6]">
-                {{ SLIDES[current].hero }}
-              </p>
-              <p v-if="SLIDES[current].attribution" class="slide-attribution mt-5">
-                {{ SLIDES[current].attribution }}
-              </p>
+            <!-- Slide 1: three-zone — hero optical middle, attribution lower third -->
+            <template v-if="SLIDES[current].attribution">
+              <div style="flex: 2 2 0%; display: flex; align-items: center;">
+                <p class="slide-hero text-[#f0ead6]">{{ SLIDES[current].hero }}</p>
+              </div>
+              <div style="flex: 1 1 0%; display: flex; align-items: flex-start; padding-top: 6px;">
+                <p class="slide-attribution">{{ SLIDES[current].attribution }}</p>
+              </div>
+            </template>
+
+            <!-- Slides 2–5: hero vertically centered -->
+            <div v-else class="flex-1 flex flex-col justify-center">
+              <p class="slide-hero text-[#f0ead6]">{{ SLIDES[current].hero }}</p>
               <p v-if="SLIDES[current].subtitle" class="slide-subtitle mt-4 text-[#c9d1d9]">
                 {{ SLIDES[current].subtitle }}
               </p>
@@ -106,15 +111,24 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
           <!-- Right column: custom HTML/CSS template -->
           <div class="w-1/2 flex items-center justify-center overflow-hidden">
 
-            <!-- quote1: Slide 1 — the reframe, as a visual pivot -->
+            <!-- quote1: Slide 1 — three insight units, distributed vertically -->
             <div v-if="SLIDES[current].rightTemplate === 'quote1'" class="tmpl-quote1">
-              <div class="q1-curl">&#8220;</div>
-              <p class="q1-not text-[#f0ead6]">not a problem of&nbsp;<span class="q1-strike">time</span></p>
-              <p class="q1-but text-[#f0ead6]">but a problem of&nbsp;<em :style="`color: ${ACCENT}`">feeling</em></p>
-              <div class="q1-attr">
-                <p>Timothy A. Pychyl</p>
-                <p style="opacity: 0.55;">Solving the Procrastination Puzzle</p>
+              <div style="flex: 1.5 1.5 0%"></div>
+              <div class="q1-unit">
+                <p class="q1-label">WRITING, NOT ASSEMBLY</p>
+                <p class="q1-body text-[#f0ead6]">The words are the bottleneck, not the files.</p>
               </div>
+              <div style="flex: 1 1 0%"></div>
+              <div class="q1-unit">
+                <p class="q1-label">THE WINDOW DECAYS</p>
+                <p class="q1-body text-[#f0ead6]">Highest memory, lowest motivation.</p>
+              </div>
+              <div style="flex: 1 1 0%"></div>
+              <div class="q1-unit">
+                <p class="q1-label">AVOIDANCE, NOT LAZINESS</p>
+                <p class="q1-body" :style="`color: ${ACCENT}`">Emotion regulation, not time management.</p>
+              </div>
+              <div style="flex: 0.5 0.5 0%"></div>
             </div>
 
             <!-- phraseList: Slide 2 — struck-through list → highlighted winner -->
@@ -268,46 +282,35 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 
 .tmpl-quote1 {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 44px 48px 44px 44px;
+  padding: 40px 48px 40px 44px;
+  box-sizing: border-box;
 }
 
-.q1-curl {
-  font-family: 'Piazzolla', Georgia, serif;
-  font-style: italic;
-  font-size: 160px;
-  line-height: 0.75;
-  color: rgba(201, 160, 255, 0.22);
-  user-select: none;
-  margin-bottom: -16px;
+.q1-unit {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex-shrink: 0;
 }
 
-.q1-not, .q1-but {
+.q1-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240, 234, 214, 0.5);
+}
+
+.q1-body {
   font-family: 'Piazzolla', Georgia, serif;
   font-style: italic;
-  font-size: clamp(20px, 2.4vw, 32px);
+  font-size: clamp(15px, 1.7vw, 22px);
   line-height: 1.3;
   font-weight: 400;
-}
-
-.q1-but { margin-top: 4px; }
-
-.q1-strike {
-  text-decoration: line-through;
-  text-decoration-color: rgba(240, 234, 214, 0.75);
-  text-decoration-thickness: 2px;
-  opacity: 0.85;
-}
-
-.q1-attr {
-  margin-top: 24px;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: rgba(240, 234, 214, 0.75);
-  line-height: 1.65;
 }
 
 /* ── Template: phraseList ────────────────────────────────── */
