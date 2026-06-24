@@ -370,7 +370,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 
 .ia-arrow {
   font-size: 13px;
-  color: rgba(240, 234, 214, 0.28);
+  color: rgba(240, 234, 214, 0.45);
   line-height: 1;
   font-family: 'Inter', sans-serif;
 }
